@@ -40,6 +40,9 @@ const pizzaController = {
         // mongoDB uses insertOne(), insertMany()
         // but mongoose just uses create()!
         Pizza.create(body)
+            // MongoDB returns an _id value
+            // you can override this name to whatever you want
+            // __v field is a version tracking tool
             .then(dbPizzaData => res.json(dbPizzaData))
             .catch(err => res.status(400).json(err));
     },

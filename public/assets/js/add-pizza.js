@@ -51,6 +51,26 @@ const handlePizzaSubmit = event => {
   }
 
   const formData = { pizzaName, createdBy, size, toppings };
+
+  // we need to create our fetch for the POST route
+  fetch('/api/pizzas', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+    .then(response => response.json())
+    // remember the .json() method returns promise
+    // so we use then() method again
+    .then(postResponse => {
+      alert('Pizza created!');
+      console.log(postResponse);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 $pizzaForm.addEventListener('submit', handlePizzaSubmit);
