@@ -65,6 +65,7 @@ const pizzaController = {
     // DELETE a pizza
     deletePizza({ params }, res) {
         // findOneAndDelete() mongoose method
+        // deleteOne() and deleteMany() delete but dont return
         Pizza.findOneAndDelete({ _id: params.id })
             .then(dbPizzaData => {
                 if (!dbPizzaData) {
