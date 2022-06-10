@@ -54,6 +54,11 @@ const pizzaController = {
         // so that it returns the updated version
         // updateOne() and updateMany() will update
         // documents but not return them 
+        // in sequelize we would put new data, then the params
+        // in mongoose we start the 'where' clause first
+        // the 'where' being _id: params.id
+        // then we do the updated data
+        // then the options for the data
         Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true })
         .then(dbPizzaData => {
             if (!dbPizzaData) {
