@@ -7,6 +7,23 @@ const pizzaController = {
         // find() is a mongoose method
         // like Sequelize's findAll()
         Pizza.find({})
+            // the .populate() method will show us
+            // the comment data
+            .populate({
+                // use the key 'path' and make value
+                // equal to comments
+                path: 'comments',
+                // select is saying that we DON'T want
+                // to return the __v field
+                // the minus sign says we don't want this
+                // this is the __v for the comment document
+                select: '-__v'
+            })
+            // now we want to get rid of __v for the pizza document
+            .select('-__v')
+            // we can return pizza data with Mongoose's .sort() method
+            // here we are sorting in DESC order, newest pizza first
+            .sort( { _id: -1 })
             .then(dbPizzaData => res.json(dbPizzaData))
             .catch(err => {
                 console.log(err);
@@ -20,6 +37,11 @@ const pizzaController = {
         // instead of using req, we destructure
         // params
         Pizza.findOne({ _id: params.id })
+            .populate({
+                path: 'comments',
+                select: '-__v'
+            })
+            .select('-__v')
             .then(dbPizzaData => {
                 if (!dbPizzaData) {
                     res.status(404).json({message: 'No pizza found with this id!'});
