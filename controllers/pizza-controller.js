@@ -37,10 +37,13 @@ const pizzaController = {
         // instead of using req, we destructure
         // params
         Pizza.findOne({ _id: params.id })
+            // we add comment data to pizza GET request
             .populate({
                 path: 'comments',
+                // remove __v value for comments
                 select: '-__v'
             })
+            // remove __v value for pizza 
             .select('-__v')
             .then(dbPizzaData => {
                 if (!dbPizzaData) {

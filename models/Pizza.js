@@ -2,6 +2,11 @@
 // function of mongoose
 const { Schema, model } = require('mongoose');
 
+
+//import dateFormat function from utils
+const dateFormat = require('../utils/dateFormat');
+
+
 // create our model schema
 const PizzaSchema = new Schema(
     {
@@ -15,7 +20,10 @@ const PizzaSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: Date.now
+            default: Date.now,
+            // here is our getter to reformat timestamp
+            // we use our dateFormat functions from utils
+            get: (createdAtVal) => dateFormat(createdAtVal)
         },
         size: {
             type: String,
@@ -35,9 +43,11 @@ const PizzaSchema = new Schema(
     },
     // we pass second object
     // this will allow use of virtuals
+    // we also allow use of getters
     {
         toJSON: {
             virtuals: true,
+            getters: true
         },
         id: false
     }
