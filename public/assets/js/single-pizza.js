@@ -27,6 +27,7 @@ function getPizza() {
     })
     .then(printPizza)
     .catch( err => {
+      console.log(err)
       alert('cannot find pizza with this id. Returning to page.');
       // returns user to previous page
       // like pressing the back button
@@ -159,6 +160,29 @@ function handleNewReplySubmit(event) {
   }
 
   const formData = { writtenBy, replyBody };
+
+  // we must add put request for replies
+  fetch(`/api/comments/${pizzaId}/${commentId}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type' : 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error ('something went wrong.');
+      }
+      response.json();
+    })
+    .then(commentResponse => {
+      console.log(commentResponse);
+      location.reload();
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 
 $backBtn.addEventListener('click', function() {

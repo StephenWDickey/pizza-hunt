@@ -92,7 +92,7 @@ const commentController = {
 
     },
 
-    removeRply({params}, res) {
+    removeReply({params}, res) {
         Comment.findOneAndUpdate(
             { _id: params.commentId },
             // when we delete the reply we must designate the id
