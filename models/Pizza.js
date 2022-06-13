@@ -58,7 +58,12 @@ const PizzaSchema = new Schema(
 // it will show us how many comments are 
 // attached to some pizza
 PizzaSchema.virtual('commentCount').get(function() {
-    return this.comments.length;
+    // we get comments for pizza, we also attach subdocument of comments
+    // so we can see the replies as well!
+    // the reduce() method takes the total 
+    // reduce() has two parameters (accumulator, currentValue)
+    // accumulator = total, currentValue = comment
+    return this.comments.reduce((total, comment) => total + comment.replies.length +1, 0);
 })
 
 // here we 'create' the model, we name it pizza
