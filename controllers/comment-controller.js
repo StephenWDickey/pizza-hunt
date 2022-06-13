@@ -42,6 +42,25 @@ const commentController = {
     },
 
 
+    // to add a reply we only need to update the comment model
+    // remember replies are a subdocument of comments 
+    addReply( { params, body }, res) {
+        Comment.findOneAndUpdate(
+            { _id: params.commentId },
+            { $push: {replies: body} },
+            { new: true }
+        )
+            .then(dbPizzaData => {
+                if(!dbPizzaData) {
+                    res.status(404).json({message: 'no pizza found with this id.'});
+                    return;
+                }
+                res.json(dbPizzaData);
+            })
+            .catch(err => res.json(err));
+    },
+
+
     removeComment({ params }, res) {
 
         // we delete the comment
@@ -71,6 +90,18 @@ const commentController = {
             })
             .catch(err => res.json(err));
 
+    },
+
+    removeRply({params}, res) {
+        Comment.findOneAndUpdate(
+            { _id: params.commentId },
+            // when we delete the reply we must designate the id
+            // of the reply so it may be pulled
+            { $pull: { replies: { replyId: params.replyId }}},
+            { new: true }
+        )
+        .then(dbPizzaData => res.json(dbPizzaData))
+        .catch(err => res.json(err));
     }
 };
 
