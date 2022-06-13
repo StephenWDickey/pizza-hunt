@@ -70,6 +70,8 @@ const handlePizzaSubmit = event => {
     })
     .catch(err => {
       console.log(err);
+      // function from idb.js!
+      saveRecord(formData);
     });
 };
 
