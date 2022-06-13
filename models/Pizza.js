@@ -13,10 +13,18 @@ const PizzaSchema = new Schema(
         pizzaName: {
             // we dont need to import datatypes
             // like we do with Sequelize
-            type: String
+            type: String,
+            // adding validation
+            // instead of true we can also input a string/
+            // message for the user when they havent input
+            required: true,
+            trim: true
         },
         createdBy: {
-            type: String
+            type: String,
+            // adding validation
+            required: true,
+            trim: true
         },
         createdAt: {
             type: Date,
@@ -27,7 +35,11 @@ const PizzaSchema = new Schema(
         },
         size: {
             type: String,
-            deafult: 'Large'
+            // again adding validation
+            required: true,
+            // enum = enumerable
+            enum: ['Personal', 'Small', 'Medium', 'Large', 'Extra Large'],
+            default: 'Large'
         },
         toppings: [],
         // we create an association to comments

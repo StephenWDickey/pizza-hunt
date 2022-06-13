@@ -84,7 +84,8 @@ const pizzaController = {
         // the 'where' being _id: params.id
         // then we do the updated data
         // then the options for the data
-        Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true })
+        // we must also set runValidators: true
+        Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
         .then(dbPizzaData => {
             if (!dbPizzaData) {
                 res.status(404).json({message: 'No pizza found with this id. '});
